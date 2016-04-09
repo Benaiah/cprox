@@ -3,6 +3,7 @@ package main
 import (
 	"io"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 
 	"github.com/rs/cors"
@@ -54,6 +55,15 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 	io.Copy(w, res.Body)
 }
 
+func reverseProxyHandler(w http.ResponseWriter, r *http.Request) {
+	u, err := url.Parse("https://github.com")
+	if err != nil {
+		panic(err)
+	}
+	p := httputil.NewSingleHostReverseProxy(u)
+	p.ServeHTTP(w, r)
+}
+
 func main() {
 	mux := http.NewServeMux()
 	c := cors.New(cors.Options{
@@ -62,5 +72,6 @@ func main() {
 	})
 
 	mux.HandleFunc("/", corsHandler)
+	mux.HandleFunc("/github/", reverseProxyHandler)
 	http.ListenAndServe(":3000", c.Handler(mux))
 }
