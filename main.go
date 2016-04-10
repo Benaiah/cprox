@@ -56,7 +56,7 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func reverseProxyHandler(w http.ResponseWriter, r *http.Request) {
-	u, err := url.Parse("https://github.com")
+	u, err := url.Parse("https://devtbay.com")
 	if err != nil {
 		panic(err)
 	}
