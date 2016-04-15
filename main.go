@@ -3,7 +3,6 @@ package main
 import (
 	"io"
 	"net/http"
-	"net/http/httputil"
 	"net/url"
 
 	"github.com/rs/cors"
