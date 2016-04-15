@@ -28,6 +28,10 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(info)
 		return
 	}
+	addCorsHeaders(w, r, corsURL)
+}
+
+func addCorsHeaders(w http.ResponseWriter, r *http.Request, corsURL string) {
 	parsed, err := url.Parse(corsURL)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -55,15 +59,6 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 	io.Copy(w, res.Body)
 }
 
-func reverseProxyHandler(w http.ResponseWriter, r *http.Request) {
-	u, err := url.Parse("https://devtbay.com")
-	if err != nil {
-		panic(err)
-	}
-	p := httputil.NewSingleHostReverseProxy(u)
-	p.ServeHTTP(w, r)
-}
-
 func main() {
 	mux := http.NewServeMux()
 	c := cors.New(cors.Options{
@@ -72,6 +67,5 @@ func main() {
 	})
 
 	mux.HandleFunc("/", corsHandler)
-	mux.HandleFunc("/github/", reverseProxyHandler)
 	http.ListenAndServe(":3000", c.Handler(mux))
 }
