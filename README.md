@@ -6,7 +6,7 @@ CORS proxy.
 Usage
 ---
 
-Make requests with the query parameter `url`, ie, `localhost:3000?url=https://google.com`. That's it!
+Make your request to `corsproxy.co/<url>` or make requests with the query parameter `url`, ie, `corsproxy.co?url=https://google.com`.
 
 (It'll start on port 3000, idk if it'll work with POST requests...)
 
