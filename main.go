@@ -27,6 +27,11 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(info)
 		return
 	}
+	if r.URL.Path == "" {
+		w.Write(info)
+		return
+	}
+
 	addCorsHeaders(w, r, corsURL)
 }
 
