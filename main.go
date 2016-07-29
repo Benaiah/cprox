@@ -57,6 +57,7 @@ func addCorsHeaders(w http.ResponseWriter, r *http.Request, corsURL string) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.WriteHeader(res.StatusCode)
 	for key, val := range res.Header {
 		w.Header().Set(key, val[0])
 	}
