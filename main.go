@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
+	"strconv"
 
 	"github.com/rs/cors"
 )
@@ -36,6 +38,7 @@ func corsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func addCorsHeaders(w http.ResponseWriter, r *http.Request, corsURL string) {
+	fmt.Println("requesting " + corsURL)
 	parsed, err := url.Parse(corsURL)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -61,6 +64,7 @@ func addCorsHeaders(w http.ResponseWriter, r *http.Request, corsURL string) {
 	for key, val := range res.Header {
 		w.Header().Set(key, val[0])
 	}
+	fmt.Println("- got response with status code " + strconv.Itoa(res.StatusCode))
 	io.Copy(w, res.Body)
 }
 
