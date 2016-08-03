@@ -76,5 +76,5 @@ func main() {
 	})
 
 	mux.HandleFunc("/", corsHandler)
-	http.ListenAndServe(":3000", c.Handler(mux))
+	http.ListenAndServe(":80", c.Handler(mux))
 }
