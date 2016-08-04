@@ -25,6 +25,12 @@ will enable cors for that url
 
 func corsHandler(w http.ResponseWriter, r *http.Request) {
 	corsURL := r.URL.Query().Get("url")
+	corsURL, err := url.QueryUnescape(corsURL)
+	if err != nil {
+		w.Write(info)
+		w.Write([]byte(err.Error()))
+		return
+	}
 	if corsURL == "" {
 		w.Write(info)
 		return
