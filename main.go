@@ -62,6 +62,9 @@ func addCorsHeaders(w http.ResponseWriter, r *http.Request, corsURL string) {
 	}
 
 	res, err := http.DefaultClient.Do(req)
+	if res != nil && res.Body != nil {
+		defer res.Body.Close()
+	}
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
